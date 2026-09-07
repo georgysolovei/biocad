@@ -1,0 +1,49 @@
+# Binary outputs
+bin/
+dist/
+*.so
+*.dylib
+hello-world-app     # Example compiled local binary name
+
+# Go build cache and test artifacts
+*.test
+*.out
+*.prof
+cpu.pprof
+mem.pprof
+trace.out
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux system files
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# IDEs and Editors (VS Code / JetBrains / Vim)
+.idea/
+.vscode/
+*.swp
+*.swo
+.netrwhist
+
+# draw.io auto-save and temporary backup files
+.~df*.tmp
+*.bkp
+
+# Local environment variables
+.env
+.env.local
+
