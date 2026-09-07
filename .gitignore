@@ -3,7 +3,7 @@ bin/
 dist/
 *.so
 *.dylib
-hello-world-app     # Example compiled local binary name
+server
 
 # Go build cache and test artifacts
 *.test
