@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: biocad-hello
+  labels:
+    app: biocad-hello
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: biocad-hello
+  template:
+    metadata:
+      labels:
+        app: biocad-hello
+    spec:
+      # Allow scheduling on the same node for demo/small clusters
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: biocad-hello
+                topologyKey: kubernetes.io/hostname
+
+      # Security: the binary runs as UID 65534 (nobody)
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+
+      containers:
+        - name: app
+          image: biocad-hello:latest
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 32777
+              protocol: TCP
+
+          # Probes work over HTTP — no shell required inside scratch images
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 32777
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 32777
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: 10m
+              memory: 8Mi
+            limits:
+              cpu: 100m
+              memory: 16Mi
+
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
