@@ -33,7 +33,7 @@ spec:
 
       containers:
         - name: app
-          image: biocad-hello:latest
+          image: georgysolovei/biocad-hello:1.0
           imagePullPolicy: IfNotPresent
 
           ports:
